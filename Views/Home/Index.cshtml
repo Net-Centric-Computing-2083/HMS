@@ -1,0 +1,33 @@
+@{
+    ViewData["Title"] = "Home";
+}
+<div class="text-center">
+    <h1 class="display-5">Hospital / Clinic Management System</h1>
+    <p class="lead">Group 4 — Patient, Doctor, Appointment &amp; Billing Management</p>
+</div>
+<div class="row mt-4 g-3">
+    <div class="col-md-3">
+        <div class="card h-100"><div class="card-body">
+            <h5 class="card-title">Patients</h5>
+            <a class="btn btn-primary btn-sm" asp-controller="Patients" asp-action="Index">Manage Patients</a>
+        </div></div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100"><div class="card-body">
+            <h5 class="card-title">Doctors</h5>
+            <a class="btn btn-primary btn-sm" asp-controller="Doctors" asp-action="Index">Manage Doctors</a>
+        </div></div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100"><div class="card-body">
+            <h5 class="card-title">Appointments</h5>
+            <a class="btn btn-primary btn-sm" asp-controller="Appointments" asp-action="Index">Manage Appointments</a>
+        </div></div>
+    </div>
+    <div class="col-md-3">
+        <div class="card h-100"><div class="card-body">
+            <h5 class="card-title">Billing</h5>
+            <a class="btn btn-primary btn-sm" asp-controller="Bills" asp-action="Index">Manage Bills</a>
+        </div></div>
+    </div>
+</div>

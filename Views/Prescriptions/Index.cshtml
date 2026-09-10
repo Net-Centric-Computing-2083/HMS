@@ -1,0 +1,17 @@
+@model List<Prescription>
+@{ var patient = ViewBag.Patient as Patient; ViewData["Title"] = "Prescriptions"; }
+<h2>Prescriptions @(patient != null ? $"— {patient.FullName}" : "")</h2>
+<table class="table table-striped table-hover">
+    <thead><tr><th>Date Issued</th><th>Doctor</th><th>Medicines</th><th>Dosage</th></tr></thead>
+    <tbody>
+    @foreach (var p in Model)
+    {
+        <tr>
+            <td>@p.DateIssued.ToShortDateString()</td>
+            <td>@p.DoctorName</td>
+            <td>@p.Medicines</td>
+            <td>@p.Dosage</td>
+        </tr>
+    }
+    </tbody>
+</table>

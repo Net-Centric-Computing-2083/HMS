@@ -1,0 +1,35 @@
+@model List<Doctor>
+@{ ViewData["Title"] = "Doctors"; }
+<h2>Doctors</h2>
+<form method="get" class="row g-2 mb-3">
+    <div class="col-auto">
+        <input type="text" name="specialization" value="@ViewBag.SpecializationFilter" class="form-control" placeholder="Filter by specialization" />
+    </div>
+    <div class="col-auto"><button type="submit" class="btn btn-outline-secondary">Filter</button></div>
+    <div class="col-auto"><a asp-action="Create" class="btn btn-primary">+ New Doctor</a></div>
+</form>
+<table class="table table-striped table-hover">
+    <thead><tr><th>ID</th><th>Name</th><th>Specialization</th><th>Fee</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var d in Model)
+    {
+        <tr>
+            <td>@d.DoctorID</td>
+            <td>@d.FullName</td>
+            <td>@d.Specialization</td>
+            <td>@d.ConsultationFee.ToString("C")</td>
+            <td>@d.Status</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@d.DoctorID" class="btn btn-sm btn-outline-primary">View</a>
+                <a asp-action="Edit" asp-route-id="@d.DoctorID" class="btn btn-sm btn-outline-secondary">Edit</a>
+                @if (d.Status == "Active")
+                {
+                    <form asp-action="Deactivate" asp-route-id="@d.DoctorID" method="post" class="d-inline">
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Deactivate</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

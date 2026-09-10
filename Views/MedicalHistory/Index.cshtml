@@ -1,0 +1,18 @@
+@model List<MedicalHistory>
+@{ var patient = ViewBag.Patient as Patient; ViewData["Title"] = "Medical History"; }
+<h2>Medical History @(patient != null ? $"— {patient.FullName}" : "")</h2>
+<a asp-action="Create" asp-route-patientId="@(patient?.PatientID)" class="btn btn-primary mb-3">+ Add Diagnosis Entry</a>
+<table class="table table-striped table-hover">
+    <thead><tr><th>Visit Date</th><th>Doctor</th><th>Diagnosis</th><th>Notes</th></tr></thead>
+    <tbody>
+    @foreach (var h in Model)
+    {
+        <tr>
+            <td>@h.VisitDate.ToShortDateString()</td>
+            <td>@h.DoctorName</td>
+            <td>@h.Diagnosis</td>
+            <td>@h.Notes</td>
+        </tr>
+    }
+    </tbody>
+</table>

@@ -1,0 +1,30 @@
+@model List<Bill>
+@{ var patient = ViewBag.Patient as Patient; ViewData["Title"] = "Bills"; }
+<h2>Bills @(patient != null ? $"— {patient.FullName}" : "")</h2>
+<a asp-action="Summary" class="btn btn-outline-secondary mb-3">View Summary</a>
+<table class="table table-striped table-hover">
+    <thead><tr><th>ID</th><th>Patient</th><th>Amount</th><th>Status</th><th>Method</th><th>Date</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var b in Model)
+    {
+        <tr>
+            <td>@b.BillID</td>
+            <td>@b.PatientName</td>
+            <td>@b.Amount.ToString("C")</td>
+            <td>@b.PaymentStatus</td>
+            <td>@b.PaymentMethod</td>
+            <td>@b.BillDate.ToShortDateString()</td>
+            <td>
+                @if (b.PaymentStatus != "Paid")
+                {
+                    <form asp-action="UpdatePaymentStatus" asp-route-id="@b.BillID" method="post" class="d-inline">
+                        <input type="hidden" name="status" value="Paid" />
+                        <input type="hidden" name="method" value="Cash" />
+                        <button type="submit" class="btn btn-sm btn-outline-success">Mark Paid</button>
+                    </form>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>

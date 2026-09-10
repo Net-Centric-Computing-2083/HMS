@@ -1,0 +1,39 @@
+@model List<Appointment>
+@{ ViewData["Title"] = "Appointments"; }
+<h2>Appointments</h2>
+<a asp-action="Create" class="btn btn-primary mb-3">+ New Appointment</a>
+<table class="table table-striped table-hover">
+    <thead><tr><th>ID</th><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+    @foreach (var a in Model)
+    {
+        <tr>
+            <td>@a.AppointmentID</td>
+            <td>@a.PatientName</td>
+            <td>@a.DoctorName</td>
+            <td>@a.AppointmentDate.ToShortDateString()</td>
+            <td>@a.AppointmentTime</td>
+            <td>@a.Status</td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@a.AppointmentID" class="btn btn-sm btn-outline-secondary">Edit</a>
+                @if (a.Status == "Scheduled")
+                {
+                    <form asp-action="UpdateStatus" asp-route-id="@a.AppointmentID" method="post" class="d-inline">
+                        <input type="hidden" name="status" value="Completed" />
+                        <button type="submit" class="btn btn-sm btn-outline-success">Complete</button>
+                    </form>
+                    <form asp-action="UpdateStatus" asp-route-id="@a.AppointmentID" method="post" class="d-inline">
+                        <input type="hidden" name="status" value="Cancelled" />
+                        <button type="submit" class="btn btn-sm btn-outline-danger">Cancel</button>
+                    </form>
+                }
+                @if (a.Status == "Completed")
+                {
+                    <a asp-controller="Prescriptions" asp-action="Create" asp-route-appointmentId="@a.AppointmentID" class="btn btn-sm btn-outline-primary">Prescribe</a>
+                    <a asp-controller="Bills" asp-action="Create" asp-route-appointmentId="@a.AppointmentID" asp-route-patientId="@a.PatientID" class="btn btn-sm btn-outline-primary">Bill</a>
+                }
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
