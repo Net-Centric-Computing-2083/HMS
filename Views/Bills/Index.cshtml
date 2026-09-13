@@ -1,7 +1,31 @@
 @model List<Bill>
-@{ var patient = ViewBag.Patient as Patient; ViewData["Title"] = "Bills"; }
+@{ var patient = ViewBag.Patient as Patient; var readyToBill = ViewBag.ReadyToBill as List<Appointment>; ViewData["Title"] = "Bills"; }
 <h2>Bills @(patient != null ? $"— {patient.FullName}" : "")</h2>
 <a asp-action="Summary" class="btn btn-outline-secondary mb-3">View Summary</a>
+
+@if (readyToBill != null && readyToBill.Any())
+{
+    <h5 class="mt-2">Ready to bill</h5>
+    <p class="text-muted small">Completed appointments that don't have a bill yet.</p>
+    <table class="table table-sm table-bordered mb-4">
+        <thead><tr><th>Date</th><th>Patient</th><th>Doctor</th><th></th></tr></thead>
+        <tbody>
+        @foreach (var a in readyToBill)
+        {
+            <tr>
+                <td>@a.AppointmentDate.ToShortDateString()</td>
+                <td>@a.PatientName</td>
+                <td>@a.DoctorName</td>
+                <td>
+                    <a asp-action="Create" asp-route-appointmentId="@a.AppointmentID" asp-route-patientId="@a.PatientID" class="btn btn-sm btn-primary">Generate Bill</a>
+                </td>
+            </tr>
+        }
+        </tbody>
+    </table>
+}
+
+<h5>All bills</h5>
 <table class="table table-striped table-hover">
     <thead><tr><th>ID</th><th>Patient</th><th>Amount</th><th>Status</th><th>Method</th><th>Date</th><th></th></tr></thead>
     <tbody>
@@ -10,7 +34,7 @@
         <tr>
             <td>@b.BillID</td>
             <td>@b.PatientName</td>
-            <td>@b.Amount.ToString("C")</td>
+            <td>Rs. @b.Amount.ToString("N2")</td>
             <td>@b.PaymentStatus</td>
             <td>@b.PaymentMethod</td>
             <td>@b.BillDate.ToShortDateString()</td>

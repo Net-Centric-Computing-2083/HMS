@@ -1,8 +1,8 @@
 @{ ViewData["Title"] = "Billing Summary"; }
 <h2>Billing Summary</h2>
 <dl class="row">
-    <dt class="col-sm-4">Total Billed</dt><dd class="col-sm-8">@(((decimal)ViewBag.TotalBilled).ToString("C"))</dd>
-    <dt class="col-sm-4">Total Paid</dt><dd class="col-sm-8">@(((decimal)ViewBag.TotalPaid).ToString("C"))</dd>
-    <dt class="col-sm-4">Total Outstanding</dt><dd class="col-sm-8">@(((decimal)ViewBag.TotalOutstanding).ToString("C"))</dd>
+    <dt class="col-sm-4">Total Billed</dt><dd class="col-sm-8">Rs. @(((decimal)ViewBag.TotalBilled).ToString("N2"))</dd>
+    <dt class="col-sm-4">Total Paid</dt><dd class="col-sm-8">Rs. @(((decimal)ViewBag.TotalPaid).ToString("N2"))</dd>
+    <dt class="col-sm-4">Total Outstanding</dt><dd class="col-sm-8">Rs. @(((decimal)ViewBag.TotalOutstanding).ToString("N2"))</dd>
 </dl>
 <a asp-action="Index" class="btn btn-secondary">Back to Bills</a>

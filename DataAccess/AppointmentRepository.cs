@@ -42,6 +42,21 @@ namespace HospitalClinicMS.DataAccess
             while (reader.Read()) list.Add(Map(reader));
             return list;
         }
+        
+        public List<Appointment> GetCompletedUnbilled()
+        {
+            var list = new List<Appointment>();
+            using var conn = new SqlConnection(_connectionString);
+            using var cmd = new SqlCommand(
+                BaseSelect +
+                "WHERE a.Status = 'Completed' " +
+                "AND NOT EXISTS (SELECT 1 FROM Bills b WHERE b.AppointmentID = a.AppointmentID) " +
+                "ORDER BY a.AppointmentDate DESC", conn);
+            conn.Open();
+            using var reader = cmd.ExecuteReader();
+            while (reader.Read()) list.Add(Map(reader));
+            return list;
+        }
 
         public List<Appointment> GetByDoctor(int doctorId)
         {
