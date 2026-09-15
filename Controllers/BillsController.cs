@@ -8,16 +8,20 @@ namespace HospitalClinicMS.Controllers
     {
         private readonly BillRepository _repo;
         private readonly PatientRepository _patientRepo;
+        private readonly AppointmentRepository _appointmentRepo;
 
         public BillsController(string connectionString)
         {
             _repo = new BillRepository(connectionString);
             _patientRepo = new PatientRepository(connectionString);
+            _appointmentRepo = new AppointmentRepository(connectionString);
         }
 
-        // View outstanding/paid bills; optional per-patient filter
+        // View outstanding/paid bills, plus completed appointments still awaiting a bill
         public IActionResult Index(int? patientId)
         {
+            ViewBag.ReadyToBill = _appointmentRepo.GetCompletedUnbilled();
+
             if (patientId.HasValue)
             {
                 ViewBag.Patient = _patientRepo.GetById(patientId.Value);
